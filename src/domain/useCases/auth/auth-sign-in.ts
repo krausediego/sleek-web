@@ -8,7 +8,7 @@ export class AuthSignInUseCase implements IAuthSignIn {
 
   async run(data: IAuthSignIn.Params): Promise<any> {
     await this.httpClient.post({
-      uri: `http://localhost:3333/api${this.authSignInUrl}`,
+      uri: this.authSignInUrl,
       data,
     });
   }

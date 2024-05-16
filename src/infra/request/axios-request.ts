@@ -7,7 +7,14 @@ export class AxiosRequest implements HttpClient {
   instance: AxiosInstance;
 
   constructor() {
-    this.instance = axios.create({ withCredentials: true });
+    this.instance = axios.create({
+      baseURL: import.meta.env.VITE_BASE_URL,
+      withCredentials: true,
+    });
+  }
+
+  getInstance(): AxiosInstance {
+    return this.instance;
   }
 
   async post(params: HttpClient.RequestData<any>): Promise<any> {
@@ -36,10 +43,7 @@ export class AxiosRequest implements HttpClient {
         headers,
         params: params.data ? this.parseData(params.data, "params") : undefined,
       })
-      .then((response) => ({
-        data: response.data,
-        response,
-      }));
+      .then((response) => response.data);
   }
 
   async delete(params: HttpClient.RequestData<any>): Promise<any> {

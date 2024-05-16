@@ -52,6 +52,7 @@ module.exports = [
         {
           newlinesBetween: "always",
           groups: [
+            ["/^react/"],
             ["absolute"],
             ["module"],
             ["/^(@|~)/"],

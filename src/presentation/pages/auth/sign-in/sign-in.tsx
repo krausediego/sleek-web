@@ -1,6 +1,7 @@
-import { LoaderCircle } from "lucide-react";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+
+import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { IAuthSignIn } from "@/domain/interfaces";
@@ -9,14 +10,11 @@ import { Form } from "@/presentation/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 
+import { signInRequestFn } from ".";
 import { SignInForm } from "./components/form";
 import { SignInSchema } from "./schema";
 
-interface Props {
-  signInRequestFn: IAuthSignIn;
-}
-
-export function AuthSignInPage({ signInRequestFn }: Props) {
+export function AuthSignInPage() {
   const navigate = useNavigate();
 
   const form = useForm<IAuthSignIn.Params>({

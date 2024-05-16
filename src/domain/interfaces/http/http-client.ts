@@ -1,4 +1,7 @@
+import { AxiosInstance } from "axios";
+
 export interface HttpClient {
+  getInstance(): AxiosInstance;
   post<R = any>(params: HttpClient.RequestData): Promise<R>;
   put<R = any>(params: HttpClient.RequestData): Promise<R>;
   get<R = any>(params: HttpClient.RequestData): Promise<R>;
