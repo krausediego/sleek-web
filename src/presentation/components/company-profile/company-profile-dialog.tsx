@@ -13,7 +13,6 @@ import {
   updateCompanyFn,
   companyProfileSchema,
 } from ".";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
   DialogContent,
@@ -23,7 +22,6 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { Form } from "../ui/form";
-import { Input } from "../ui/input";
 
 export function CompanyProfileDialog() {
   const queryClient = useQueryClient();
@@ -40,6 +38,7 @@ export function CompanyProfileDialog() {
       id: company?.id ?? "",
       name: company?.name ?? "",
       description: company?.description ?? "",
+      logo: undefined,
       types: company?.types ?? ["BARBER"],
     },
   });
@@ -53,11 +52,10 @@ export function CompanyProfileDialog() {
 
   const handleSubmit: SubmitHandler<IUpdateCompany.Params> = async (values) => {
     try {
-      await updateCompanyMutationFn(values);
+      await updateCompanyMutationFn({ ...values, id: company?.id as string });
 
       toast.success("Estabelecimento atualizado com sucesso!");
     } catch (error) {
-      console.error(error);
       toast.error(
         "Ocorreu um erro ao tentar atualizar o seu estabelecimento, se o problema persistir entre em contato com o suporte."
       );
@@ -79,17 +77,6 @@ export function CompanyProfileDialog() {
             className="space-y-4"
             onSubmit={form.handleSubmit(handleSubmit)}
           >
-            <div className="flex">
-              <Avatar className="w-32 h-32 rounded-lg">
-                <AvatarImage src={company?.logoUrl} />
-                <AvatarFallback>ABC</AvatarFallback>
-              </Avatar>
-
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Input className="hidden" id="picture" type="file" />
-              </div>
-            </div>
-
             <FormCompanyProfile company={company} />
 
             <DialogFooter>

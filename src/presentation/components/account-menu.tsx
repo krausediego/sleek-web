@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
-import { Building, LogOut } from "lucide-react";
+import { Building, LogOut, Send, Users } from "lucide-react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { useValidateRole } from "../hooks";
 import { findUserProfileFn, authSignOutFn } from "./company-profile";
 import { CompanyProfileDialog } from "./company-profile/company-profile-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -21,6 +22,7 @@ import { Skeleton } from "./ui/skeleton";
 export function AccountMenu() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { validateUserRoleComponent } = useValidateRole();
 
   const { data: userProfile, isLoading: isProfileLoading } = useQuery({
     queryKey: ["user-profile"],
@@ -68,14 +70,27 @@ export function AccountMenu() {
             )}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {userProfile?.user?.role === "ADMIN" && (
-            <DialogTrigger asChild>
-              <DropdownMenuItem>
-                <Building className="mr-2 h-4 w-4" />
-                <span>Perfil da loja</span>
+          {validateUserRoleComponent(
+            <>
+              <DialogTrigger asChild>
+                <DropdownMenuItem>
+                  <Building className="mr-2 h-4 w-4" />
+                  <span>Perfil da loja</span>
+                </DropdownMenuItem>
+              </DialogTrigger>
+
+              <DropdownMenuItem onClick={() => navigate("/invites")}>
+                <Send className="mr-2 h-4 w-4" />
+                <span>Código de convite</span>
               </DropdownMenuItem>
-            </DialogTrigger>
+
+              <DropdownMenuItem onClick={() => navigate("/collaborators")}>
+                <Users className="mr-2 h-4 w-4" />
+                <span>Colaboradores</span>
+              </DropdownMenuItem>
+            </>
           )}
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-rose-500 dark:text-rose-400"
             disabled={isSigningOut}

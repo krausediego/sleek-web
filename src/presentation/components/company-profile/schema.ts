@@ -12,4 +12,5 @@ export const companyProfileSchema = z.object({
   name: z.string(),
   description: z.string(),
   types: z.array(typesEnum),
+  logo: z.instanceof(File).optional(),
 });

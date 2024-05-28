@@ -29,6 +29,7 @@ interface MultiSelectProps {
   selected: string[];
   onChange: React.Dispatch<React.SetStateAction<string[]>>;
   className?: string;
+  placeholder?: string;
 }
 
 function MultiSelect({
@@ -36,6 +37,7 @@ function MultiSelect({
   selected,
   onChange,
   className,
+  placeholder,
 }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -50,10 +52,15 @@ function MultiSelect({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={`w-full justify-between ${selected.length > 1 ? "h-full" : "h-10"}`}
+          className="w-full h-10 justify-between items-center"
           onClick={() => setOpen(!open)}
         >
           <div className="flex gap-1 flex-wrap">
+            {!selected.length && !!placeholder && (
+              <span className="text-muted-foreground font-normal">
+                {placeholder}
+              </span>
+            )}
             {selected.map((item) => (
               <Badge
                 variant="secondary"

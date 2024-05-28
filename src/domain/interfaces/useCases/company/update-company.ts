@@ -8,11 +8,7 @@ export namespace IUpdateCompany {
   export type Params = {
     id: string;
     name?: string;
-    logo?: {
-      fileName: string;
-      buffer: Buffer;
-      mimetype: string;
-    };
+    logo?: File;
     description?: string;
     types?: SpecialtyTypes[];
   };

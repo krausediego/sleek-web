@@ -43,7 +43,12 @@ export class AxiosRequest implements HttpClient {
         headers,
         params: params.data ? this.parseData(params.data, "params") : undefined,
       })
-      .then((response) => response.data);
+      .then(async (response) => {
+        if (process.env.NODE_ENV === "development") {
+          await new Promise((resolve) => setTimeout(resolve, 4000));
+        }
+        return response.data;
+      });
   }
 
   async delete(params: HttpClient.RequestData<any>): Promise<any> {

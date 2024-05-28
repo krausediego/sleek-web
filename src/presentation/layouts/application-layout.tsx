@@ -17,7 +17,6 @@ export function ApplicationLayout() {
     const interceptorId = api.interceptors.response.use(
       (response) => response,
       (error) => {
-        console.log("AQUI");
         if (isAxiosError(error)) {
           const status = error.response?.status;
 
@@ -32,7 +31,6 @@ export function ApplicationLayout() {
     );
 
     return () => {
-      console.log("AQUI 3");
       api.interceptors.response.eject(interceptorId);
     };
   }, [api.interceptors.response, navigate, queryClient]);

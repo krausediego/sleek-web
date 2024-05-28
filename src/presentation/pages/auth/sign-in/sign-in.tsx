@@ -34,7 +34,6 @@ export function AuthSignInPage() {
 
       toast.success("Login realizado com sucesso.");
     } catch (error) {
-      console.error(error);
       toast.error("Erro ao realizar o login.");
     }
   };

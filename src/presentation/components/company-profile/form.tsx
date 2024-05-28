@@ -2,6 +2,7 @@ import { useFormContext } from "react-hook-form";
 
 import { Company, IUpdateCompany, SpecialtyTypes } from "@/domain/interfaces";
 
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   FormControl,
   FormDescription,
@@ -15,7 +16,7 @@ import { Label } from "../ui/label";
 import { MultiSelect, OptionType } from "../ui/multi-select";
 import { Textarea } from "../ui/textarea";
 
-const options: OptionType[] = [
+export const specialtyTypesSelectOptions: OptionType[] = [
   { label: "Cabeleireiro", value: "HAIRCUTS" },
   { label: "Maquiagem", value: "MAKE_UP" },
   { label: "Manicure", value: "MANICURE" },
@@ -34,6 +35,34 @@ export function FormCompanyProfile({
 
   return (
     <>
+      <div className="flex items-center gap-4">
+        <Avatar className="w-32 h-32 rounded-lg">
+          <AvatarImage src={company?.logoUrl} />
+          <AvatarFallback>ABC</AvatarFallback>
+        </Avatar>
+
+        <FormField
+          name="logo"
+          control={form.control}
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          render={({ field: { value, onChange, ...fieldProps } }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) =>
+                    onChange(event.target.files && event.target.files[0])
+                  }
+                  placeholder="Picture"
+                  {...fieldProps}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </div>
+
       <FormField
         name="name"
         control={form.control}
@@ -78,7 +107,7 @@ export function FormCompanyProfile({
           <FormItem>
             <FormControl>
               <MultiSelect
-                options={options}
+                options={specialtyTypesSelectOptions}
                 selected={value as SpecialtyTypes[]}
                 onChange={onChange}
               />
