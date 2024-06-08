@@ -54,7 +54,6 @@ export function FormCompanyProfile({
                   onChange={(event) =>
                     onChange(event.target.files && event.target.files[0])
                   }
-                  placeholder="Picture"
                   {...fieldProps}
                 />
               </FormControl>
@@ -105,6 +104,7 @@ export function FormCompanyProfile({
         control={form.control}
         render={({ field: { value, onChange } }) => (
           <FormItem>
+            <FormLabel>Tipos</FormLabel>
             <FormControl>
               <MultiSelect
                 options={specialtyTypesSelectOptions}

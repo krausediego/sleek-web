@@ -1,4 +1,6 @@
+import { generateQueryParams } from "@/domain/helpers";
 import {
+  CollaboratorsFiltersProps,
   FindAllCompanyUsersProps,
   HttpClient,
   IFindAllCompanyUsers,
@@ -10,9 +12,11 @@ export class FindAllCompanyUsers implements IFindAllCompanyUsers {
     private readonly findAllCompanyUsersUrl: string
   ) {}
 
-  async run(): Promise<FindAllCompanyUsersProps> {
+  async run(
+    data?: CollaboratorsFiltersProps
+  ): Promise<FindAllCompanyUsersProps> {
     return this.httpClient.get<FindAllCompanyUsersProps>({
-      uri: this.findAllCompanyUsersUrl,
+      uri: `${this.findAllCompanyUsersUrl}${generateQueryParams(data)}`,
     });
   }
 }

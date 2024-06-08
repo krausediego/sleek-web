@@ -1,7 +1,7 @@
 import React from "react";
 
 import { UserProfileAndUser } from "@/domain/interfaces";
-import { findUserProfileFn } from "@/presentation/components/company-profile";
+import { findUserProfileFn } from "@/presentation/components/user-profile/requests";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useValidateRole() {

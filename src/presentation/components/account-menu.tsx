@@ -1,14 +1,15 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Building, LogOut, Send, Users } from "lucide-react";
+import { Building, CircleUserRound, LogOut, Send, Users } from "lucide-react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useValidateRole } from "../hooks";
-import { findUserProfileFn, authSignOutFn } from "./company-profile";
+import { authSignOutFn } from "./company-profile";
 import { CompanyProfileDialog } from "./company-profile/company-profile-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Dialog, DialogTrigger } from "./ui/dialog";
+import { Dialog } from "./ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,8 +19,13 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Skeleton } from "./ui/skeleton";
+import { UserProfileDialog } from "./user-profile";
+import { findUserProfileFn } from "./user-profile/requests";
 
 export function AccountMenu() {
+  const [openCompanyDialog, setOpenCompanyDialog] = useState(false);
+  const [openUserProfileDialog, setOpenUserProfileDialog] = useState(false);
+
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { validateUserRoleComponent } = useValidateRole();
@@ -39,7 +45,12 @@ export function AccountMenu() {
   });
 
   return (
-    <Dialog>
+    <Dialog
+      open={openCompanyDialog || openUserProfileDialog}
+      onOpenChange={
+        openCompanyDialog ? setOpenCompanyDialog : setOpenUserProfileDialog
+      }
+    >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button>
@@ -69,15 +80,20 @@ export function AccountMenu() {
               </>
             )}
           </DropdownMenuLabel>
-          <DropdownMenuSeparator />
+
+          <DropdownMenuItem onClick={() => setOpenUserProfileDialog(true)}>
+            <CircleUserRound className="mr-2 h-4 w-4" />
+            <span>Perfil</span>
+          </DropdownMenuItem>
+
           {validateUserRoleComponent(
             <>
-              <DialogTrigger asChild>
-                <DropdownMenuItem>
-                  <Building className="mr-2 h-4 w-4" />
-                  <span>Perfil da loja</span>
-                </DropdownMenuItem>
-              </DialogTrigger>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem onClick={() => setOpenCompanyDialog(true)}>
+                <Building className="mr-2 h-4 w-4" />
+                <span>Perfil da loja</span>
+              </DropdownMenuItem>
 
               <DropdownMenuItem onClick={() => navigate("/invites")}>
                 <Send className="mr-2 h-4 w-4" />
@@ -107,7 +123,8 @@ export function AccountMenu() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <CompanyProfileDialog />
+      {openUserProfileDialog && <UserProfileDialog user={userProfile} />}
+      {openCompanyDialog && <CompanyProfileDialog />}
     </Dialog>
   );
 }

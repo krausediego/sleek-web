@@ -2,14 +2,8 @@ import { makeHttpRequest } from "@/application/factories";
 import {
   AuthSignOutUseCase,
   FindCompany,
-  FindUserProfileUseCase,
   UpdateCompany,
 } from "@/domain/useCases";
-
-export const findUserProfileFn = new FindUserProfileUseCase(
-  makeHttpRequest(),
-  "/user-profile/find"
-);
 
 export const authSignOutFn = new AuthSignOutUseCase(
   makeHttpRequest(),

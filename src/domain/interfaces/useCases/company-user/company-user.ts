@@ -9,6 +9,7 @@ export interface CompanyUser {
 }
 
 export interface CompanyUserProps {
+  id: string;
   createdAt: Date;
   user: {
     email: string;

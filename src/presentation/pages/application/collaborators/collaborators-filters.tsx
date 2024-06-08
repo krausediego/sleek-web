@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
-import { SpecialtyTypes } from "@/domain/interfaces";
+import { CollaboratorsFiltersProps, SpecialtyTypes } from "@/domain/interfaces";
 import { specialtyTypesSelectOptions } from "@/presentation/components/company-profile";
 import {
   FormControl,
@@ -12,12 +12,6 @@ import {
 import { Input } from "@/presentation/components/ui/input";
 import { MultiSelect } from "@/presentation/components/ui/multi-select";
 
-export interface CollaboratorsFiltersProps {
-  name?: string;
-  email?: string;
-  specialty?: SpecialtyTypes[];
-}
-
 export function CollaboratorsFilters() {
   const form = useFormContext<CollaboratorsFiltersProps>();
 
@@ -26,11 +20,11 @@ export function CollaboratorsFilters() {
       <FormField
         name="name"
         control={form.control}
-        render={() => (
+        render={({ field }) => (
           <FormItem>
             <FormLabel>Nome</FormLabel>
             <FormControl>
-              <Input placeholder="Nome do colaborador" />
+              <Input placeholder="Nome do colaborador" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -39,18 +33,18 @@ export function CollaboratorsFilters() {
       <FormField
         name="email"
         control={form.control}
-        render={() => (
+        render={({ field }) => (
           <FormItem>
             <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input placeholder="Email do colaborador" />
+              <Input placeholder="Email do colaborador" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
       <FormField
-        name="specialty"
+        name="specialties"
         control={form.control}
         render={({ field: { value, onChange } }) => (
           <FormItem>
